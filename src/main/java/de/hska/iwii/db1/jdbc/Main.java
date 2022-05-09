@@ -3,12 +3,10 @@
  */
 package de.hska.iwii.db1.jdbc;
 
-import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
 import de.hska.iwii.db1.jdbc.utils.Database;
-import de.hska.iwii.db1.jdbc.utils.DatabaseUtils;
 
 /**
  * @author vovaa
