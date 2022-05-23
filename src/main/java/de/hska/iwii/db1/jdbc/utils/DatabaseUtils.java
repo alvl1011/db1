@@ -1,5 +1,6 @@
 package de.hska.iwii.db1.jdbc.utils;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -126,6 +127,26 @@ public final class DatabaseUtils {
     		Statement stmt = db.getConnection().createStatement();
             ResultSet set = stmt.executeQuery(query);
             printResult(set);
+            stmt.close();
+            return true;
+    	});
+    }
+    
+    /**
+     * Makes custom query in prepared statement form because of protecting from SQL-injections
+     * - It must be minimum one prepared statement
+     * 
+     * @param query SQL query
+     * @param parameter Parameter for statement
+     * @param db
+     */
+    public static void customQuery(String query, String parameter, Database db) {
+    	db.executeInTransaction(() -> {
+    		PreparedStatement stmt = db.getConnection().prepareStatement(query);
+            stmt.setString(1, parameter);
+            stmt.addBatch();
+            ResultSet set = stmt.executeQuery();
+            DatabaseUtils.printResult(set);
             stmt.close();
             return true;
     	});
