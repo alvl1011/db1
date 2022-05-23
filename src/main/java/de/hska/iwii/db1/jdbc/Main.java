@@ -141,22 +141,28 @@ public class Main {
 	public static void alterDatabse(JDBCBikeShop jb) {
 		try {
 			Database db = jb.getDatabase();
+			System.out.println("\n\n-------------------------------------Kunde--------------------------------------------------\n\n");
 			String update_add_Kunde = "INSERT INTO kunde VALUES (7,'Neuer Kunde', 'Kundenstraße 3', 66666, 'kunden hölle', 0);"; //KUNDEN EINFÜGEN
 			DatabaseUtils.customUpdate(update_add_Kunde, db);
 			DatabaseUtils.selectAll("kunde", db);
+			System.out.println("\n\n-------------------------------------Auftrag------------------------------------------------\n\n");
 			String update_add_Auftrag = "INSERT INTO auftrag VALUES (6,'2022-05-12', 7, 2)"; //AUFTRAG EINFÜGEN
 			DatabaseUtils.customUpdate(update_add_Auftrag, db);
 			DatabaseUtils.selectAll("auftrag", db);
+			System.out.println("\n\n-------------------------------------Auftragsposten-----------------------------------------\n\n");
 			String update_add_Auftragsposten = "INSERT INTO auftragsposten VALUES (53, 6, 500013, 6, '280.00')"; //Auftragsposten bei Auftrag ergänzen
 			DatabaseUtils.customUpdate(update_add_Auftragsposten, db);
 			DatabaseUtils.selectAll("auftragsposten", db);
+			System.out.println("\n\n-------------------------------------Sperren------------------------------------------------\n\n");
 			String update_add_Sperre = "UPDATE kunde SET sperre = 1 WHERE nr = 7"; //Kunden Sperren
 			DatabaseUtils.customUpdate(update_add_Sperre, db);
 			DatabaseUtils.selectAll("kunde", db);
+			System.out.println("\n\n-------------------------------------Löschen------------------------------------------------\n\n");
 			String update_delete_Kunde = "DELETE FROM kunde WHERE nr = 7 "; //Kunden löschen
 			DatabaseUtils.customUpdate(update_delete_Kunde, db);
 			DatabaseUtils.selectAll("kunde", db);
 			//Richtige lösch reihenfolge
+			System.out.println("\n\n-------------------------------------Löschen2-----------------------------------------------\n\n");
 			String update_delete_Auftragsposten = "DELETE FROM auftragsposten WHERE auftrnr = 6 "; //
 			DatabaseUtils.customUpdate(update_delete_Auftragsposten, db);
 			String update_delete_Auftrag = "DELETE FROM auftrag WHERE kundnr = 7 "; //
@@ -166,6 +172,7 @@ public class Main {
 			DatabaseUtils.selectAll("auftrag", db);
 			DatabaseUtils.selectAll("auftragsposten", db);
 			db.reInitializeDB();
+			db.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
