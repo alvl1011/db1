@@ -1,10 +1,12 @@
 package de.hska.iwii.db1.jdbc.utils;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -132,10 +134,22 @@ public final class DatabaseUtils {
     	});
     }
     
-    public static void customUpdate(String query, Database db) {
+    public static void customUpdate(String query, String[] options, Database db) {
     	db.executeInTransaction(() -> {
-    		Statement stmt = db.getConnection().createStatement();
-            stmt.executeUpdate(query);
+    		PreparedStatement stmt = db.getConnection().prepareStatement(query);
+    		for(int i = 0; i < options.length; i++) {
+    			if (Utils.isDouble(options[i])) {
+    				stmt.setDouble(i + 1, Double.parseDouble(options[i]));
+    			} else if (Utils.isInt(options[i])) {
+    				stmt.setInt(i + 1, Integer.parseInt(options[i]));
+    			} else if (Utils.isDate(options[i])) {
+    				stmt.setDate(i + 1, Date.valueOf(options[i]));
+    			} else {
+    				stmt.setString(i + 1, options[i]);
+    			}
+    		}
+    		stmt.addBatch();
+            stmt.executeUpdate();
             stmt.close();
             return true;
     	});

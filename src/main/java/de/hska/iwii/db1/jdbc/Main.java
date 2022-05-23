@@ -142,32 +142,39 @@ public class Main {
 		try {
 			Database db = jb.getDatabase();
 			System.out.println("\n\n-------------------------------------Kunde--------------------------------------------------\n\n");
-			String update_add_Kunde = "INSERT INTO kunde VALUES (7,'Neuer Kunde', 'Kundenstraße 3', 66666, 'kunden hölle', 0);"; //KUNDEN EINFÜGEN
-			DatabaseUtils.customUpdate(update_add_Kunde, db);
+			String update_add_Kunde = "INSERT INTO kunde VALUES (?, ?, ?, ?, ?, ?);"; //KUNDEN EINFÜGEN
+			String[] add_kunde_options = {"7","Neuer Kunde", "Kundenstraße 3", "66666", "kunden hölle", "0"};
+			DatabaseUtils.customUpdate(update_add_Kunde, add_kunde_options, db);
 			DatabaseUtils.selectAll("kunde", db);
 			System.out.println("\n\n-------------------------------------Auftrag------------------------------------------------\n\n");
-			String update_add_Auftrag = "INSERT INTO auftrag VALUES (6,'2022-05-12', 7, 2)"; //AUFTRAG EINFÜGEN
-			DatabaseUtils.customUpdate(update_add_Auftrag, db);
+			String update_add_Auftrag = "INSERT INTO auftrag VALUES (?, ?, ?, ?)"; //AUFTRAG EINFÜGEN
+			String[] update_auftrag_options = {"6","2022-05-12", "7", "2"};
+			DatabaseUtils.customUpdate(update_add_Auftrag, update_auftrag_options, db);
 			DatabaseUtils.selectAll("auftrag", db);
 			System.out.println("\n\n-------------------------------------Auftragsposten-----------------------------------------\n\n");
-			String update_add_Auftragsposten = "INSERT INTO auftragsposten VALUES (53, 6, 500013, 6, '280.00')"; //Auftragsposten bei Auftrag ergänzen
-			DatabaseUtils.customUpdate(update_add_Auftragsposten, db);
+			String update_add_Auftragsposten = "INSERT INTO auftragsposten VALUES (?, ?, ?, ?, ?)"; //Auftragsposten bei Auftrag ergänzen
+			String[] update_auftragsposten_options = {"53", "6", "500013", "6", "280.00"};
+			DatabaseUtils.customUpdate(update_add_Auftragsposten, update_auftragsposten_options, db);
 			DatabaseUtils.selectAll("auftragsposten", db);
 			System.out.println("\n\n-------------------------------------Sperren------------------------------------------------\n\n");
-			String update_add_Sperre = "UPDATE kunde SET sperre = 1 WHERE nr = 7"; //Kunden Sperren
-			DatabaseUtils.customUpdate(update_add_Sperre, db);
+			String update_add_Sperre = "UPDATE kunde SET sperre = ? WHERE nr = ?"; //Kunden Sperren
+			String[] update_sperre_options = {"1", "7"};
+			DatabaseUtils.customUpdate(update_add_Sperre, update_sperre_options, db);
 			DatabaseUtils.selectAll("kunde", db);
 			System.out.println("\n\n-------------------------------------Löschen------------------------------------------------\n\n");
-			String update_delete_Kunde = "DELETE FROM kunde WHERE nr = 7 "; //Kunden löschen
-			DatabaseUtils.customUpdate(update_delete_Kunde, db);
+			String update_delete_Kunde = "DELETE FROM kunde WHERE nr = ? "; //Kunden löschen
+			String[] update_delete_options = {"7"};
+			DatabaseUtils.customUpdate(update_delete_Kunde, update_delete_options, db);
 			DatabaseUtils.selectAll("kunde", db);
 			//Richtige lösch reihenfolge
 			System.out.println("\n\n-------------------------------------Löschen2-----------------------------------------------\n\n");
-			String update_delete_Auftragsposten = "DELETE FROM auftragsposten WHERE auftrnr = 6 "; //
-			DatabaseUtils.customUpdate(update_delete_Auftragsposten, db);
-			String update_delete_Auftrag = "DELETE FROM auftrag WHERE kundnr = 7 "; //
-			DatabaseUtils.customUpdate(update_delete_Auftrag, db);
-			DatabaseUtils.customUpdate(update_delete_Kunde, db);
+			String update_delete_Auftragsposten = "DELETE FROM auftragsposten WHERE auftrnr = ? "; //
+			String[] update_delete1_options = {"6"};
+			DatabaseUtils.customUpdate(update_delete_Auftragsposten, update_delete1_options, db);
+			String update_delete_Auftrag = "DELETE FROM auftrag WHERE kundnr = ? "; //
+			String[] update_delete2_options = {"7"};
+			DatabaseUtils.customUpdate(update_delete_Auftrag, update_delete2_options, db);
+			DatabaseUtils.customUpdate(update_delete_Kunde, update_delete_options, db);
 			DatabaseUtils.selectAll("kunde", db);
 			DatabaseUtils.selectAll("auftrag", db);
 			DatabaseUtils.selectAll("auftragsposten", db);
