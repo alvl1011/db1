@@ -132,6 +132,15 @@ public final class DatabaseUtils {
     	});
     }
     
+    public static void customUpdate(String query, Database db) {
+    	db.executeInTransaction(() -> {
+    		Statement stmt = db.getConnection().createStatement();
+            stmt.executeUpdate(query);
+            stmt.close();
+            return true;
+    	});
+    }
+    
     /**
      * Makes custom query in prepared statement form because of protecting from SQL-injections
      * - It must be minimum one prepared statement

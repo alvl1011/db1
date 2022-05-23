@@ -42,6 +42,12 @@ public class Main {
     	System.out.println("***********\n");
     	joinOperations(jb);
     	
+    	// Aufgabe 4.4
+    	System.out.println("\n***********");
+    	System.out.println("Aufgabe 4.4");
+    	System.out.println("***********\n");
+    	alterDatabse(jb);
+    	
     	
     }
 	
@@ -124,5 +130,45 @@ public class Main {
             e.printStackTrace();
         }
     }
+	
+	/**
+	 * Aufgabe 4.4:
+	 * 
+	 * - Hier üben Sie das Ändern von Zeilen in einer Tabelle
+	 * 
+	 * @param jb
+	 */
+	public static void alterDatabse(JDBCBikeShop jb) {
+		try {
+			Database db = jb.getDatabase();
+			String update_add_Kunde = "INSERT INTO kunde VALUES (7,'Neuer Kunde', 'Kundenstraße 3', 66666, 'kunden hölle', 0);"; //KUNDEN EINFÜGEN
+			DatabaseUtils.customUpdate(update_add_Kunde, db);
+			DatabaseUtils.selectAll("kunde", db);
+			String update_add_Auftrag = "INSERT INTO auftrag VALUES (6,'2022-05-12', 7, 2)"; //AUFTRAG EINFÜGEN
+			DatabaseUtils.customUpdate(update_add_Auftrag, db);
+			DatabaseUtils.selectAll("auftrag", db);
+			String update_add_Auftragsposten = "INSERT INTO auftragsposten VALUES (53, 6, 500013, 6, '280.00')"; //Auftragsposten bei Auftrag ergänzen
+			DatabaseUtils.customUpdate(update_add_Auftragsposten, db);
+			DatabaseUtils.selectAll("auftragsposten", db);
+			String update_add_Sperre = "UPDATE kunde SET sperre = 1 WHERE nr = 7"; //Kunden Sperren
+			DatabaseUtils.customUpdate(update_add_Sperre, db);
+			DatabaseUtils.selectAll("kunde", db);
+			String update_delete_Kunde = "DELETE FROM kunde WHERE nr = 7 "; //Kunden löschen
+			DatabaseUtils.customUpdate(update_delete_Kunde, db);
+			DatabaseUtils.selectAll("kunde", db);
+			//Richtige lösch reihenfolge
+			String update_delete_Auftragsposten = "DELETE FROM auftragsposten WHERE auftrnr = 6 "; //
+			DatabaseUtils.customUpdate(update_delete_Auftragsposten, db);
+			String update_delete_Auftrag = "DELETE FROM auftrag WHERE kundnr = 7 "; //
+			DatabaseUtils.customUpdate(update_delete_Auftrag, db);
+			DatabaseUtils.customUpdate(update_delete_Kunde, db);
+			DatabaseUtils.selectAll("kunde", db);
+			DatabaseUtils.selectAll("auftrag", db);
+			DatabaseUtils.selectAll("auftragsposten", db);
+			db.reInitializeDB();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }
